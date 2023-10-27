@@ -15,7 +15,7 @@ if (localStorage.getItem("imgData") === null) {
 }
 
 var currentCase = "case1";
-var acceptMoneyPerClick = 0.3;
+var acceptMoneyPerClick = 0.2;
 
 /*=========================Inventory============================*/
 //In inventory: weap skins
