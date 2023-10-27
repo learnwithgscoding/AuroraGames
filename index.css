@@ -1,18 +1,15 @@
 @keyframes rainbow {
-  0% {
+  from {
     border-color: magenta;
   }
-  25% {
-    border-color: magenta;
-  }
-  50% {
-    border-color: magenta;
-  }
-  75% {
-    border-color: magenta;
-  }
-  100% {
+  to {
     border-color: magenta;
   }
 }
+
+element {
+  border: 20px solid;
+  animation: rainbow 10s infinite alternate ease-in-out;
+}
+
 
