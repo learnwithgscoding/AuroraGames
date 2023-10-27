@@ -1,1 +1,18 @@
-background: linear-gradient(to right, #FF00FF 0%, #0000FF 100%);
+@keyframes rainbow {
+  0% {
+    border-color: magenta;
+  }
+  25% {
+    border-color: magenta;
+  }
+  50% {
+    border-color: magenta;
+  }
+  75% {
+    border-color: magenta;
+  }
+  100% {
+    border-color: magenta;
+  }
+}
+
