@@ -11,44 +11,7 @@
 <title>Aurora</title>
 
 <!-- Search Bar code -->
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Image Alt Search Engine</title>
-  <style>
-    #search-results img {
-      display: none;
-    }
 
-    #search-results img[src="${searchTerm}"] {
-      display: block;
-    }
-  </style>
-
-  <input type="text" id="search-bar" placeholder="Search though the games..">
-  <ul id="search-results"></ul>
-
-  <script>
-    const searchBar = document.getElementById('search-bar');
-    const searchResults = document.getElementById('search-results');
-
-    searchBar.addEventListener('input', function() {
-      const searchTerm = this.value.toLowerCase();
-
-      searchResults.innerHTML = '';
-
-      const images = document.querySelectorAll('img');
-
-      for (const image of images) {
-        if (image.getAttribute('alt').toLowerCase() === searchTerm) {
-          const searchResult = document.createElement('li');
-          searchResult.innerHTML = `<img src="${image.getAttribute('src')}">`;
-
-          searchResults.appendChild(searchResult);
-        }
-      }
-    });
-  </script>
 
 
 
