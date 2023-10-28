@@ -11,71 +11,46 @@
 <title>Aurora</title>
 
 <!-- Search Bar code -->
-<input type="text" id="search-bar" placeholder="Search to see what games are on here!">
-<ul id="search-results"></ul>
-
-<style>
-#search-results img {
-  display: none;
-}
-</style>
-
-<script>
-const searchBar = document.getElementById('search-bar');
-const searchResults = document.getElementById('search-results');
-
-// Show all images when there is no text in the search bar
-if (!searchBar.value) {
-  const images = document.querySelectorAll('img');
-
-  for (const image of images) {
-    image.style.display = 'block';
-  }
-}
-
-searchBar.addEventListener('input', function() {
-  // Convert the search term to lowercase
-  const searchTerm = this.value.toLowerCase();
-
-  // Clear the search results
-  searchResults.innerHTML = '';
-
-  // Get all images on the page
-  const images = document.querySelectorAll('img');
-
-  // Search through the image alts and display any matches, ignoring case
-  for (const image of images) {
-    const altText = image.getAttribute('alt');
-
-    if (altText && altText.toLowerCase().includes(searchTerm)) {
-      const searchResult = document.createElement('li');
-      searchResult.innerHTML = `<a href="${image.getAttribute('src')}">${altText}</a>`;
-
-      searchResults.appendChild(searchResult);
-
-      // Show the image if it is not already displayed
-      if (image.style.display !== 'block') {
-        image.style.display = 'block';
-      }
-    } else {
-      // Hide the image if it does not match the search term
-      if (image.style.display !== 'none') {
-        image.style.display = 'none';
-      }
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Alt Search Engine</title>
+  <style>
+    #search-results img {
+      display: none;
     }
-  }
-});
 
-searchResults.addEventListener('click', function(event) {
-  // Get the image that was clicked on
-  const image = event.target;
+    #search-results img[src="${searchTerm}"] {
+      display: block;
+    }
+  </style>
 
-  // Show the image if it is hidden
-  if (image.style.display === 'none') {
-    image.style.display = 'block';
-  }
-});
-</script>
+  <input type="text" id="search-bar" placeholder="Search though the games..">
+  <ul id="search-results"></ul>
+
+  <script>
+    const searchBar = document.getElementById('search-bar');
+    const searchResults = document.getElementById('search-results');
+
+    searchBar.addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase();
+
+      searchResults.innerHTML = '';
+
+      const images = document.querySelectorAll('img');
+
+      for (const image of images) {
+        if (image.getAttribute('alt').toLowerCase() === searchTerm) {
+          const searchResult = document.createElement('li');
+          searchResult.innerHTML = `<img src="${image.getAttribute('src')}">`;
+
+          searchResults.appendChild(searchResult);
+        }
+      }
+    });
+  </script>
+
+
 
 <link rel="stylesheet" href="index.css">
 
