@@ -10,6 +10,73 @@
 
 <title>Aurora</title>
 
+<!-- Search Bar code -->
+<input type="text" id="search-bar" placeholder="Search image alts...">
+<ul id="search-results"></ul>
+
+<style>
+#search-results img {
+  display: none;
+}
+</style>
+
+<script>
+const searchBar = document.getElementById('search-bar');
+const searchResults = document.getElementById('search-results');
+
+// Show all images when there is no text in the search bar
+if (!searchBar.value) {
+  const images = document.querySelectorAll('img');
+
+  for (const image of images) {
+    image.style.display = 'block';
+  }
+}
+
+searchBar.addEventListener('input', function() {
+  // Convert the search term to lowercase
+  const searchTerm = this.value.toLowerCase();
+
+  // Clear the search results
+  searchResults.innerHTML = '';
+
+  // Get all images on the page
+  const images = document.querySelectorAll('img');
+
+  // Search through the image alts and display any matches, ignoring case
+  for (const image of images) {
+    const altText = image.getAttribute('alt');
+
+    if (altText && altText.toLowerCase().includes(searchTerm)) {
+      const searchResult = document.createElement('li');
+      searchResult.innerHTML = `<a href="${image.getAttribute('src')}">${altText}</a>`;
+
+      searchResults.appendChild(searchResult);
+
+      // Show the image if it is not already displayed
+      if (image.style.display !== 'block') {
+        image.style.display = 'block';
+      }
+    } else {
+      // Hide the image if it does not match the search term
+      if (image.style.display !== 'none') {
+        image.style.display = 'none';
+      }
+    }
+  }
+});
+
+searchResults.addEventListener('click', function(event) {
+  // Get the image that was clicked on
+  const image = event.target;
+
+  // Show the image if it is hidden
+  if (image.style.display === 'none') {
+    image.style.display = 'block';
+  }
+});
+</script>
+
 <link rel="stylesheet" href="index.css">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -32,6 +99,7 @@
 <img src="standard.gif" class="my-gif" />
 <br>
 <br>
+  <!-- Game add code -->
 <a href=stickman-hook/index.html>
 <img border="0" alt="Stickman-hook" src="stickman-hook/unnamed.jpg" width="200" height="200">
 </a>
