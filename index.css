@@ -16,3 +16,12 @@ body {
   background-image: linear-gradient(magenta, blue);
 }
 
+.topnav {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.topnav a {
+  color: magenta;
+}
+
