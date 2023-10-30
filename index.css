@@ -12,7 +12,7 @@ element {
   animation: rainbow 10s infinite alternate ease-in-out;
 }
 
-div {
+body {
   background-image: linear-gradient(magenta, blue);
 }
 
