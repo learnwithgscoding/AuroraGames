@@ -17,7 +17,8 @@ div {
 }
 
 body {
-  border: 3px solid magenta;
+  border: 5px solid magenta;
+  background-color: #19A5FF;
 }
 
 
