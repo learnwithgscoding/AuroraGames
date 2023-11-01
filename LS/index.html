@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ProtonGames Auth</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script>
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCi2nCSIgG06MN5WoVPiCf0uWQWXh6KPJw",
+  authDomain: "signup-7856c.firebaseapp.com",
+  databaseURL: "https://signup-7856c-default-rtdb.firebaseio.com",
+  projectId: "signup-7856c",
+  storageBucket: "signup-7856c.appspot.com",
+  messagingSenderId: "257328329466",
+  appId: "1:257328329466:web:6b8b340084ad8deec14f43",
+  measurementId: "G-B1Q51TBM2R"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Save the user's login session to local storage
+    function saveLoginSession(uid) {
+      localStorage.setItem('login_user_uid', uid);
+    }
+
+    // Load the user's login session from local storage
+    function loadLoginSession() {
+      const uid = localStorage.getItem('login_user_uid');
+      // If the `login_user_uid` item does not exist in local storage, create it and set it to an empty string.
+      if (!uid) {
+        saveLoginSession('');
+      }
+      // Return the `login_user_uid` item from local storage.
+      return uid;
+    }
+
+    // Sign up user and store information in the Firebase Realtime Database
+    function signup() {
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+
+      // Check if the email and password are valid
+      if (!email.match(/^[^@]+@[^@]+\.[^@]+$/)) {
+        alert("Invalid email address");
+        return;
+      }
+      if (password.length < 6) {
+        alert("Password must be at least 6 characters long");
+        return;
+      }
+
+      // Create the user
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(function(user) {
+          alert("Successfully Logged in!")
+          // User signed up successfully
+          // Save the user UID to local storage
+          saveLoginSession(user.user.uid);
+
+          // Store user information in the Firebase Realtime Database
+          const userRef = firebase.database().ref('users/' + user.user.uid);
+          userRef.set({
+            email: email,
+          });
+
+          // You can perform additional actions here after successful signup
+
+        })
+        .catch(function(error) {
+          // Handle error
+          alert(error.message);
+        });
+    }
+
+    // Make sure that the `login_user_uid` item exists in local storage at the start.
+    if (!loadLoginSession()) {
+      saveLoginSession('');
+    }
+
+    // Check if the `login_user_uid` item exists in local storage before using the `uid` variable.
+    const uid = loadLoginSession();
+    if (uid) {
+      // The user is logged in.
+      // Use the `uid` variable in your code.
+    } else {
+      // The user is not logged in.
+      // Display an error message or redirect the user to the login page.
+    }
+  </script>
+</head>
+<body>
+  <div id="app">
+    <h1>ProtonGames Auth</h1>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button type="button" id="signup" onclick="signup()">Sign Up</button>
+  </div>
+</body>
+</html>

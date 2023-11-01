@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Choose Username</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/init.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCi2nCSIgG06MN5WoVPiCf0uWQWXh6KPJw",
+      authDomain: "signup-7856c.firebaseapp.com",
+      projectId: "signup-7856c",
+      storageBucket: "signup-7856c.appspot.com",
+      messagingSenderId: "257328329466",
+      appId: "1:257328329466:web:6b8b340084ad8deec14f43",
+      measurementId: "G-B1Q51TBM2R"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Get the auth object
+    var auth = firebase.auth();
+
+    // Get the Firestore database
+    var db = firebase.firestore();
+
+    // Check if the user is logged in
+    function isLoggedIn() {
+      return auth.currentUser !== null;
+    }
+
+    // Choose a username
+    function chooseUsername() {
+      // Get the username from the input field
+      var username = document.getElementById('username').value;
+
+      // Update the user's profile with the new username
+      auth.currentUser.updateProfile({
+        displayName: username
+      }).then(function() {
+        // Username updated successfully
+
+        // Save the username to the database
+        db.collection('users').doc(auth.currentUser.uid).set({
+          username: username
+        });
+
+        // Alert the user
+        alert("Username updated!");
+      }).catch(function(error) {
+        // Handle error
+        alert("Failed to update username: " + error.message);
+      });
+    }
+
+    // Load the page
+    window.onload = function() {
+      // Check if the user is logged in
+      if (isLoggedIn()) {
+        // Show the username input field and button
+        document.getElementById('username-form').style.display = 'block';
+
+        // Get the user's current username from the database
+        db.collection('users').doc(auth.currentUser.uid).get().then(function(doc) {
+          // If the user has a username, display it
+          if (doc.exists && doc.data().username) {
+            document.getElementById('username').value = doc.data().username;
+          }
+        });
+      } else {
+        // Hide the username input field and button
+        document.getElementById('username-form').style.display = 'none';
+      }
+    };
+  </script>
+</head>
+<body>
+  <h1>Choose Username</h1>
+
+  <form id="username-form" style="display: none;">
+    <input type="text" id="username" placeholder="Username">
+    <button type="button" onclick="chooseUsername()">Choose Username</button>
+  </form>
+</body>
+</html>

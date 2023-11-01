@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>Firebase Login</title>
+ <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/init.js"></script>
+ <script>
+  const firebaseConfig = {
+   apiKey: "AIzaSyCi2nCSIgG06MN5WoVPiCf0uWQWXh6KPJw",
+   authDomain: "signup-7856c.firebaseapp.com",
+   projectId: "signup-7856c",
+   storageBucket: "signup-7856c.appspot.com",
+   messagingSenderId: "257328329466",
+   appId: "1:257328329466:web:6b8b340084ad8deec14f43",
+   measurementId: "G-B1Q51TBM2R"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  // Get the auth object
+  var auth = firebase.auth();
+
+  // Set the persistence state to PERSISTENT
+  auth.setPersistence('PERSISTENT');
+
+  // Save the user's login session to local storage
+  function saveLoginSession(uid) {
+   localStorage.setItem('login_user_uid', uid);
+  }
+
+  // Sign in with email and password
+  function signIn() {
+   var email = document.getElementById('email').value;
+   var password = document.getElementById('password').value;
+
+   auth.signInWithEmailAndPassword(email, password).then(function(user) {
+    // User is signed in
+    // Save the user UID to local storage
+    saveLoginSession(user.uid);
+
+    alert("Login successful!");
+   }).catch(function(error) {
+    // Handle error
+    alert("Login failed. Please check your email and password.");
+   });
+  }
+ </script>
+</head>
+<body>
+ <h1>Firebase Login</h1>
+
+ <input type="email" id="email" placeholder="Email">
+ <input type="password" id="password" placeholder="Password">
+
+ <button type="button" onclick="signIn()">Sign In</button>
+</body>
+</html>
