@@ -1,0 +1,34 @@
+<title>Home | Aurora</title>
+<!DOCTYPE html>
+<h1>id="changing-text"</h1>
+<html>
+<head>
+  <script>
+    // Create an array of custom responses
+    const responses = ["Happy Halloween!", "Is it just me or is 711 cool?", "Made By Blake, and Gavin"];
+
+    // Set a counter to keep track of which response to display
+    let counter = 0;
+
+    // Create a function to change the text
+    function changeText() {
+      // Get the element that contains the text
+      const element = document.getElementById("changing-text");
+
+      // Update the element's innerHTML with the next response
+      element.innerHTML = responses[counter];
+
+      // Increment the counter
+      counter = (counter + 1) % responses.length;
+    }
+
+    // Set an interval to call the changeText() function every 20 seconds
+    setInterval(changeText, 20000);
+  </script>
+</head>
+<body>
+
+  
+
+</body>
+</html>
