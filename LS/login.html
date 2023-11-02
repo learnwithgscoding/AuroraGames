@@ -39,7 +39,7 @@
    auth.signInWithEmailAndPassword(email, password).then(function(user) {
     // User is signed in
     // Save the user UID to local storage
-    saveLoginSession(user.uid);
+    saveLoginSession(user.user.uid);
 
     alert("Login successful!");
    }).catch(function(error) {
