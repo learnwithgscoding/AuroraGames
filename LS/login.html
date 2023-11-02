@@ -1,60 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
- <meta charset="utf-8">
- <title>Aurora Login</title>
- <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
- <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
- <script src="https://www.gstatic.com/firebasejs/init.js"></script>
- <script>
-  const firebaseConfig = {
-   apiKey: "AIzaSyCi2nCSIgG06MN5WoVPiCf0uWQWXh6KPJw",
-   authDomain: "signup-7856c.firebaseapp.com",
-   projectId: "signup-7856c",
-   storageBucket: "signup-7856c.appspot.com",
-   messagingSenderId: "257328329466",
-   appId: "1:257328329466:web:6b8b340084ad8deec14f43",
-   measurementId: "G-B1Q51TBM2R"
-  };
-
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-
-  // Get the auth object
-  var auth = firebase.auth();
-
-  // Set the persistence state to PERSISTENT
-  auth.setPersistence('PERSISTENT');
-
-  // Save the user's login session to local storage
-  function saveLoginSession(uid) {
-   localStorage.setItem('login_user_uid', uid);
-  }
-
-  // Sign in with email and password
-  function signIn() {
-   var email = document.getElementById('email').value;
-   var password = document.getElementById('password').value;
-
-   auth.signInWithEmailAndPassword(email, password).then(function(user) {
-    // User is signed in
-    // Save the user UID to local storage
-    saveLoginSession(user.user.uid);
-
-    alert("Login successful!");
-   }).catch(function(error) {
-    // Handle error
-    alert("Login failed. Please check your email and password.");
-   });
-  }
- </script>
+  <title>AuroraGames Login</title>
+  <link rel="stylesheet" href="login.css">
 </head>
 <body>
- <h1>AuroraGames Login</h1>
-
- <input type="email" id="email" placeholder="Email">
- <input type="password" id="password" placeholder="Password">
-
- <button type="button" onclick="signIn()">Sign In</button>
+  <div id="app">
+    <h1>AuroraGames Login</h1>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button type="button" id="login" onclick="login()">Login</button>
+  </div>
 </body>
 </html>
+
+<script>
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  databaseURL: "YOUR_DATABASE_URL",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGE_SENDER_ID",
+  appId: "YOUR_APP_ID",
+  measurementId: "YOUR_MEASUREMENT_ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+// Log in user
+async function login() {
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value;
+
+  // Check if the email and password are valid
+  if (!email.match(/^[^@]+@[^@]+\.[^@]+$/)) {
+    alert("Invalid email address");
+    return;
+  }
+  if (password.length < 6) {
+    alert("Password must be at least 6 characters long");
+    return;
+  }
+
+  // Sign in the user with their email and password
+  const user = await firebase.auth().signInWithEmailAndPassword(email, password);
+
+  // Save the user's UUID to local storage
+  localStorage.setItem('login_user_uid', user.user.uid);
+
+  // Check if the user's UUID exists in the Realtime Database
+  const userRef = firebase.database().ref('users/' + user.user.uid);
+  const userSnapshot = await userRef.once('value');
+
+  // If the user's UUID does not exist in the Realtime Database, create a new user account
+  if (!userSnapshot.exists()) {
+    userRef.set({
+      email: email,
+    });
+  }
+
+  // Redirect the user to the main page
+  window.location.href = "main.html";
+}
+
+</script>
