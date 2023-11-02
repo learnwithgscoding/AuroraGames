@@ -13,7 +13,6 @@
   </div>
 </body>
 </html>
-
 <script>
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -43,25 +42,22 @@ async function login() {
     return;
   }
 
-  // Sign in the user with their email and password
-  const user = await firebase.auth().signInWithEmailAndPassword(email, password);
+  // Try to sign in the user with their email and password
+  try {
+    const user = await firebase.auth().signInWithEmailAndPassword(email, password);
 
-  // Save the user's UUID to local storage
-  localStorage.setItem('login_user_uid', user.user.uid);
+    // If the login is successful, save the user's UUID to local storage and show a success alert
+    if (user) {
+      localStorage.setItem('login_user_uid', user.user.uid);
+      alert("Successfully logged in!");
+    }
 
-  // Check if the user's UUID exists in the Realtime Database
-  const userRef = firebase.database().ref('users/' + user.user.uid);
-  const userSnapshot = await userRef.once('value');
-
-  // If the user's UUID does not exist in the Realtime Database, create a new user account
-  if (!userSnapshot.exists()) {
-    userRef.set({
-      email: email,
-    });
+    // Redirect the user to the main page
+    window.location.href = "main.html";
+  } catch (error) {
+    // Handle error
+    alert(error.message);
   }
-
-  // Redirect the user to the main page
-  window.location.href = "main.html";
 }
 
 </script>
