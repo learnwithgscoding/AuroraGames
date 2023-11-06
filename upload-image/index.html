@@ -1,53 +1,68 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Upload Image to GitHub</title>
+  <title>Upload File to GitHub</title>
 </head>
 <body>
   <form>
-    <input type="file" id="image-file" />
-    <button type="submit" id="upload-button">Upload Image</button>
+    <input type="file" id="file" />
+    <button type="submit" id="upload-button">Upload File</button>
   </form>
+
+  <div id="error-message"></div>
+  <div id="success-message"></div>
 
   <script>
     var axios = require('axios');
-    var fs = require('fs');
 
-    let token = "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"
+    const token = "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";
 
-    const imageFile = document.querySelector('#image-file');
-    imageFile.addEventListener('change', function() {
-      const file = this.files[0];
+    const fileInput = document.querySelector('#file');
+    const uploadButton = document.querySelector('#upload-button');
+    const errorMessage = document.querySelector('#error-message');
+    const successMessage = document.querySelector('#success-message');
+
+    uploadButton.addEventListener('click', function(event) {
+      event.preventDefault();
+
+      const file = fileInput.files[0];
       const fileName = file.name;
-      uploadFileApi(token, file, fileName);
+      const contentType = file.type;
+
+      uploadFileApi(token, file, fileName, contentType)
+        .then(() => {
+          successMessage.textContent = 'Successfully uploaded file!';
+        })
+        .catch((error) => {
+          errorMessage.textContent = 'Error uploading file: ' + error.message;
+        });
     });
 
-    function uploadFileApi(token, file, fileName) {
+    async function uploadFileApi(token, file, fileName, contentType) {
+
+      const url = `https://api.github.com/repos/gshaffer312/AuroraGames/contents/upload-file/${fileName}`;
 
       var data = JSON.stringify({
-        "message": "image file",
+        "message": "img upload",
         "content": file,
-        "branch": "main",
-        "path": `upload-image/${fileName}`
+        "branch": "main"
       });
 
       var config = {
         method: 'put',
-        url: `https://api.github.com/repos/Proton6255/AuroraGames/contents/upload-image/${fileName}`,
+        url: url,
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': contentType
         },
         data: data
       };
 
-      axios(config)
-        .then(function (response) {
-          console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      try {
+        await axios(config);
+      } catch (error) {
+        throw error;
+      }
     }
   </script>
 </body>
