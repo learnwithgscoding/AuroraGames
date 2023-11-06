@@ -4,39 +4,51 @@
   <title>Upload Image to GitHub</title>
 </head>
 <body>
-  <h1>Upload Image to GitHub</h1>
-
-  <form action="/upload-image" method="post" enctype="multipart/form-data">
-    <input type="file" name="image" />
-    <input type="submit" value="Upload Image" />
+  <form>
+    <input type="file" id="image-file" />
+    <button type="submit" id="upload-button">Upload Image</button>
   </form>
 
-  <div id="error-message"></div>
-
   <script>
-    function uploadImage() {
-      const formData = new FormData();
-      formData.append("image", document.querySelector("input[type=file]").files[0]);
+    var axios = require('axios');
+    var fs = require('fs');
 
-      const request = new XMLHttpRequest();
-      request.open("POST", "/upload-image");
-      request.setRequestHeader("Authorization", "Bearer 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");
-      request.send(formData);
+    let token = "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"
 
-      request.addEventListener("load", function() {
-        if (this.status === 201) {
-          alert("Image uploaded successfully!");
-        } else {
-          const errorMessage = document.querySelector("#error-message");
-          errorMessage.textContent = `Error uploading image: ${this.status}`;
-        }
-      });
-    }
-
-    document.querySelector("form").addEventListener("submit", function(event) {
-      event.preventDefault();
-      uploadImage();
+    const imageFile = document.querySelector('#image-file');
+    imageFile.addEventListener('change', function() {
+      const file = this.files[0];
+      const fileName = file.name;
+      uploadFileApi(token, file, fileName);
     });
+
+    function uploadFileApi(token, file, fileName) {
+
+      var data = JSON.stringify({
+        "message": "image file",
+        "content": file,
+        "branch": "main",
+        "path": `upload-image/${fileName}`
+      });
+
+      var config = {
+        method: 'put',
+        url: `https://api.github.com/repos/Proton6255/AuroraGames/contents/upload-image/${fileName}`,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+
+      axios(config)
+        .then(function (response) {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   </script>
 </body>
 </html>
