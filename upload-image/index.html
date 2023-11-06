@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload Image to GitHub</title>
+</head>
+<body>
+  <h1>Upload Image to GitHub</h1>
+
+  <form action="/upload-image" method="post" enctype="multipart/form-data">
+    <input type="file" name="image" />
+    <input type="submit" value="Upload Image" />
+  </form>
+
+  <div id="error-message"></div>
+
+  <script>
+    function uploadImage() {
+      const formData = new FormData();
+      formData.append("image", document.querySelector("input[type=file]").files[0]);
+
+      const request = new XMLHttpRequest();
+      request.open("POST", "/upload-image");
+      request.setRequestHeader("Authorization", "Bearer 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");
+      request.send(formData);
+
+      request.addEventListener("load", function() {
+        if (this.status === 201) {
+          alert("Image uploaded successfully!");
+        } else {
+          const errorMessage = document.querySelector("#error-message");
+          errorMessage.textContent = `Error uploading image: ${this.status}`;
+        }
+      });
+    }
+
+    document.querySelector("form").addEventListener("submit", function(event) {
+      event.preventDefault();
+      uploadImage();
+    });
+  </script>
+</body>
+</html>
