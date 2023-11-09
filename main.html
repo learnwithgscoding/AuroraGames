@@ -94,34 +94,6 @@ img {
 </style>
 </head>
 <body>
-	<div class="container">
-    <input type="text" id="searchInput" placeholder="Search by image alt">
-    <div class="image-container">
-      <img href=CSGO-Clicker/index.html src="CSGO-Clicker/csgo.png" alt="CSGO-Clicker">
-      <img src="image2.jpg" alt="Image 2">
-      <img src="image3.jpg" alt="Image 3">
-    </div>
-  </div>
-	<script>
-		const searchInput = document.getElementById('searchInput');
-const imageContainer = document.querySelector('.image-container');
-const images = imageContainer.querySelectorAll('img');
-
-searchInput.addEventListener('keyup', (event) => {
-  const searchTerm = event.target.value.toLowerCase();
-
-  images.forEach((image) => {
-    const imageAlt = image.getAttribute('alt').toLowerCase();
-
-    if (imageAlt.includes(searchTerm)) {
-      image.style.display = 'block';
-    } else {
-      image.style.display = 'none';
-    }
-  });
-});
-
-	</script>
 
 	<div class="container"></div>
 	<br>
