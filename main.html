@@ -14,6 +14,32 @@
 <head>
   
   <style>
+	  .container {
+  width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+img {
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+  display: none;
+}
+
 	  
 .my-gif {
   margin: 0 auto;
@@ -68,7 +94,36 @@
 </style>
 </head>
 <body>
-  <div class="container"></div>
+	<div class="container">
+    <input type="text" id="searchInput" placeholder="Search by image alt">
+    <div class="image-container">
+      <img src="image1.jpg" alt="Image 1">
+      <img src="image2.jpg" alt="Image 2">
+      <img src="image3.jpg" alt="Image 3">
+    </div>
+  </div>
+	<script>
+		const searchInput = document.getElementById('searchInput');
+const imageContainer = document.querySelector('.image-container');
+const images = imageContainer.querySelectorAll('img');
+
+searchInput.addEventListener('keyup', (event) => {
+  const searchTerm = event.target.value.toLowerCase();
+
+  images.forEach((image) => {
+    const imageAlt = image.getAttribute('alt').toLowerCase();
+
+    if (imageAlt.includes(searchTerm)) {
+      image.style.display = 'block';
+    } else {
+      image.style.display = 'none';
+    }
+  });
+});
+
+	</script>
+
+	<div class="container"></div>
 	<br>
 
 <img src="standard.gif" class="my-gif" />
