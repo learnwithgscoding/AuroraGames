@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AuroraGames Signup</title>
+  <title>AuroraGames Login</title>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script>
@@ -18,24 +18,8 @@
     };
     firebase.initializeApp(firebaseConfig);
 
-    // Save the user's login session to local storage
-    function saveLoginSession(uid) {
-      localStorage.setItem('login_user_uid', uid);
-    }
-
-    // Load the user's login session from local storage
-    function loadLoginSession() {
-      const uid = localStorage.getItem('login_user_uid');
-      // If the `login_user_uid` item does not exist in local storage, create it and set it to an empty string.
-      if (!uid) {
-        saveLoginSession('');
-      }
-      // Return the `login_user_uid` item from local storage.
-      return uid;
-    }
-
-    // Sign up user and store information in the Firebase Realtime Database
-    function signup() {
+    // Sign in user and set UUID cookie
+    function login() {
       var email = document.getElementById("email").value;
       var password = document.getElementById("password").value;
 
@@ -49,47 +33,30 @@
         return;
       }
 
-      // Create the user
+      // Log in the user
       firebase
         .auth()
-        .createUserWithEmailAndPassword(email, password)
+        .signInWithEmailAndPassword(email, password)
         .then(function (user) {
-          alert("Successfully Logged in!");
-          // User signed up successfully
-          // Save the user UID to local storage
-          saveLoginSession(user.user.uid);
+          // Set the UUID cookie
+          const uuid = user.user.uid;
+          document.cookie = `uuid=${uuid}`;
 
-          // Additional actions after successful signup
-
+          alert("Successfully logged in!");
         })
         .catch(function (error) {
           // Handle error
           alert(error.message);
         });
     }
-
-    // Make sure that the `login_user_uid` item exists in local storage at the start.
-    if (!loadLoginSession()) {
-      saveLoginSession('');
-    }
-
-    // Check if the `login_user_uid` item exists in local storage before using the `uid` variable.
-    const uid = loadLoginSession();
-    if (uid) {
-      // The user is logged in.
-      // Use the `uid` variable in your code.
-    } else {
-      // The user is not logged in.
-      // Display an error message or redirect the user to the login page.
-    }
   </script>
 </head>
 <body>
   <div id="app">
-    <h1>AuoraGames SignUp</h1>
+    <h1>AuoraGames Login</h1>
     <input type="email" id="email" placeholder="Email">
     <input type="password" id="password" placeholder="Password">
-    <button type="button" id="signup" onclick="signup()">Sign Up</button>
+    <button type="button" id="signup" onclick="login()">Log In</button>
   </div>
 </body>
 </html>
