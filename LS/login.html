@@ -6,17 +6,16 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script>
     // Initialize Firebase
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCi2nCSIgG06MN5WoVPiCf0uWQWXh6KPJw",
-  authDomain: "signup-7856c.firebaseapp.com",
-  databaseURL: "https://signup-7856c-default-rtdb.firebaseio.com",
-  projectId: "signup-7856c",
-  storageBucket: "signup-7856c.appspot.com",
-  messagingSenderId: "257328329466",
-  appId: "1:257328329466:web:6b8b340084ad8deec14f43",
-  measurementId: "G-B1Q51TBM2R"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyCi2nCSIgG06MN5WoVPiCf0uWQWXh6KPJw",
+      authDomain: "signup-7856c.firebaseapp.com",
+      databaseURL: "https://signup-7856c-default-rtdb.firebaseio.com",
+      projectId: "signup-7856c",
+      storageBucket: "signup-7856c.appspot.com",
+      messagingSenderId: "257328329466",
+      appId: "1:257328329466:web:6b8b340084ad8deec14f43",
+      measurementId: "G-B1Q51TBM2R"
+    };
     firebase.initializeApp(firebaseConfig);
 
     // Sign in user and set UUID cookie
@@ -47,7 +46,14 @@ const firebaseConfig = {
         })
         .catch(function (error) {
           // Handle error
-          alert(error.message);
+          const errorCode = error.code;
+          if (errorCode === "auth/invalid-email") {
+            alert("Invalid email address");
+          } else if (errorCode === "auth/wrong-password") {
+            alert("Incorrect password");
+          } else {
+            alert(error.message);
+          }
         });
     }
   </script>
