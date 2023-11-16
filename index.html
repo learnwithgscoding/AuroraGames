@@ -1,25 +1,137 @@
-<!--
-Game Bootstrapper
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L3R3HYEKKN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-@author Kasper Mol <kasper@poki.com>
-@copyright Poki 2017
--->
+  gtag('config', 'G-L3R3HYEKKN');
+</script>
+<div class="google-tag-code">
+  <br>
+<img src="standard.gif" class="my-gif" />
+
+<title>Home | Aurora</title>
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<h1 style= "color: white;">Welcome to AuroraGames ™️</h1>
+<h2 style= "color: white;">𝔸𝕝𝕝 𝕪𝕠𝕦𝕣 𝕗𝕒𝕧𝕠𝕣𝕚𝕥𝕖 𝕘𝕒𝕞𝕖𝕤 𝕒𝕝𝕝 𝕚𝕟 𝕠𝕟𝕖 𝕨𝕖𝕓𝕤𝕚𝕥𝕖</h2>
+<p style= "color: white;" id="changing-text"></p>
+<br>
 
-    <title>Crossy Road | 3kh0</title>
+<div style="text-align: center;">
+<a href="https://gshaffer312.github.io/AuroraGames/main.html" target="_self">
+  <button>Games</button>
+<br>
+<br>
+  <a href="https://gshaffer312.github.io/AuroraGames/News/index.html" target="_self">
+  <button>News</button>
 
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" async href="app-store-interstitial.css" />
 
-    <script src="scripts/extra.min.js"></script>
-    <script src="poki-sdk.js"></script>
-  </head>
-  <body>
-    <script src="scripts/bootstrap.min.js"></script>
-    <script src="/js/main.js"></script>
-  </body>
+    <style>
+
+      img {
+  border: 3px solid white;
+}
+
+      .my-gif {
+  margin: 0 auto;
+}
+
+      
+      body {
+  background-image: radial-gradient(blue, magenta);
+}
+    
+      /* Center the image */
+
+      /* Center the GIF */
+.my-gif {
+  margin: 0 auto;
+  display: block;
+}
+
+/* Center the buttons */
+button {
+  margin: 0 auto;
+  display: inline-block;
+}
+
+      
+
+/* Center the title */
+h1 {
+  text-align: center;
+}
+
+/* Center the heading */
+h2 {
+  text-align: center;
+}
+
+/* Center the buttons */
+button {
+  margin: 0 auto;
+}
+
+/* Center the changing text */
+#changing-text {
+  text-align: center;
+}
+
+      </style>
+    <style>
+      button {
+  margin: 0 auto;
+}
+
+     button {
+  width: 150px;
+  height: 50px;
+  background-color: magenta;
+  border-radius: 10px;
+}
+ 
+    </style>
+  
+</a>
+
+
+ 
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+  #changing-text {
+  font-size: 20px;
+}
+
+</style>
+  
+  <script>
+    // Create an array of custom responses
+    const responses = ["im at ur door.", "Dont do your homework, PLAY GAMES ❗️", "Website Made by Blake and Gavin", "Kiyaan said to check news!"];
+
+    // Set a counter to keep track of which response to display
+    let counter = 0;
+
+    // Create a function to change the text
+    function changeText() {
+      // Get the element that contains the text
+      const element = document.getElementById("changing-text");
+
+      // Update the element's innerHTML with the next response
+      element.innerHTML = responses[counter];
+
+      // Increment the counter
+      counter = (counter + 1) % responses.length;
+    }
+
+    // Set an interval to call the changeText() function every 20 seconds
+    setInterval(changeText, 5000);
+  </script>
+</head>
+<body onload="changeText()">
+
+</body>
 </html>
